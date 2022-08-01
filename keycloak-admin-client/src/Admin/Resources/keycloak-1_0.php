@@ -3762,6 +3762,7 @@ return array(
             ),
         ),
 
+        /** delete one session */
         'revokeUserSession' => array(
             'uri'         => 'auth/admin/realms/{realm}/sessions/{session}',
             'description' => 'Remove a specific user session.',
