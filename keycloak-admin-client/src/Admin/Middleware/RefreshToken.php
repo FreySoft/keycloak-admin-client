@@ -116,6 +116,15 @@ class RefreshToken
             return new RejectedPromise("cannot refresh token when the 'refresh_token' is missing");
         }
 
+        // added 2022-08-02
+        // temporary for testing
+        //
+        $options['grant_type'] = $grantType = "client_credentials";
+        $options['client_secret'] = 'M3ZrL0LffLVuWOnPmr9tD3N8T5l9yqDQ';
+        $options['baseUri'] = 'https://develop-auth.makedeal.io/';
+        $options['client_id'] = 'admin-cli';
+        $options['realm'] = 'make-a-deal';
+
         $url = "auth/realms/{$options['realm']}/protocol/openid-connect/token";
         $clientId = $options["client_id"] ?? "admin-cli";
         $grantType = $refresh ? "refresh_token" : ($options["grant_type"] ?? "password");
@@ -123,15 +132,6 @@ class RefreshToken
             'client_id' => $clientId,
             'grant_type' => $grantType,
         ];
-
-        // added 2022-08-02
-        // temporary for testing
-        //
-        $options['grant_type'] = $grantType = "client_credentials";
-        $options['client_secret'] = env('KEYCLOAK_ADMIN_CLIENT_SECRET', 'M3ZrL0LffLVuWOnPmr9tD3N8T5l9yqDQ');
-        $options['baseUri'] = env('KEYCLOAK_ADMIN_BASE_URI', 'https://develop-auth.makedeal.io/');
-        $options['client_id'] = env('KEYCLOAK_ADMIN_CLIENT_ID', 'admin-cli');
-        $options['realm'] = env('KEYCLOAK_ADMIN_REALM', 'make-a-deal');
 
 //        if ($grantType === "refresh_token") {
 //            $params['refresh_token'] = $credentials['refresh_token'];
