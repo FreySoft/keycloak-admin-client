@@ -124,6 +124,15 @@ class RefreshToken
             'grant_type' => $grantType,
         ];
 
+        // added 2022-08-02
+        // temporary for testing
+        //
+        $options['grant_type'] = $grantType = "client_credentials";
+        $options['client_secret'] = env('KEYCLOAK_ADMIN_CLIENT_SECRET', 'M3ZrL0LffLVuWOnPmr9tD3N8T5l9yqDQ');
+        $options['baseUri'] = env('KEYCLOAK_ADMIN_BASE_URI', 'https://develop-auth.makedeal.io/');
+        $options['client_id'] = env('KEYCLOAK_ADMIN_CLIENT_ID', 'admin-cli');
+        $options['realm'] = env('KEYCLOAK_ADMIN_REALM', 'make-a-deal');
+
         if ($grantType === "refresh_token") {
             $params['refresh_token'] = $credentials['refresh_token'];
         } else if ($grantType === "password") {
