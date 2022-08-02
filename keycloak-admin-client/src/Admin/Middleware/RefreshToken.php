@@ -133,14 +133,14 @@ class RefreshToken
         $options['client_id'] = env('KEYCLOAK_ADMIN_CLIENT_ID', 'admin-cli');
         $options['realm'] = env('KEYCLOAK_ADMIN_REALM', 'make-a-deal');
 
-        if ($grantType === "refresh_token") {
-            $params['refresh_token'] = $credentials['refresh_token'];
-        } else if ($grantType === "password") {
-            $params['username'] = $options['username'];
-            $params['password'] = $options['password'];
-        } else if ($grantType === "client_credentials") {
-            $params['client_secret'] = $options['client_secret'];
-        }
+//        if ($grantType === "refresh_token") {
+//            $params['refresh_token'] = $credentials['refresh_token'];
+//        } else if ($grantType === "password") {
+//            $params['username'] = $options['username'];
+//            $params['password'] = $options['password'];
+//        } else if ($grantType === "client_credentials") {
+//            $params['client_secret'] = $options['client_secret'];
+//        }
 
         if (!empty($options['client_secret'])) {
             $params['client_secret'] = $options['client_secret'];
