@@ -116,15 +116,6 @@ class RefreshToken
             return new RejectedPromise("cannot refresh token when the 'refresh_token' is missing");
         }
 
-        // added 2022-08-02
-        // temporary for testing
-        //
-        $options['grant_type'] = $grantType = "client_credentials";
-        $options['client_secret'] = 'M3ZrL0LffLVuWOnPmr9tD3N8T5l9yqDQ';
-        $options['baseUri'] = 'https://develop-auth.makedeal.io/';
-        $options['client_id'] = 'admin-cli';
-        $options['realm'] = 'make-a-deal';
-
         $url = "auth/realms/{$options['realm']}/protocol/openid-connect/token";
         $clientId = $options["client_id"] ?? "admin-cli";
         $grantType = $refresh ? "refresh_token" : ($options["grant_type"] ?? "password");
@@ -133,14 +124,14 @@ class RefreshToken
             'grant_type' => $grantType,
         ];
 
-//        if ($grantType === "refresh_token") {
-//            $params['refresh_token'] = $credentials['refresh_token'];
-//        } else if ($grantType === "password") {
-//            $params['username'] = $options['username'];
-//            $params['password'] = $options['password'];
-//        } else if ($grantType === "client_credentials") {
-//            $params['client_secret'] = $options['client_secret'];
-//        }
+        if ($grantType === "refresh_token") {
+            $params['refresh_token'] = $credentials['refresh_token'];
+        } else if ($grantType === "password") {
+            $params['username'] = $options['username'];
+            $params['password'] = $options['password'];
+        } else if ($grantType === "client_credentials") {
+            $params['client_secret'] = $options['client_secret'];
+        }
 
         if (!empty($options['client_secret'])) {
             $params['client_secret'] = $options['client_secret'];
