@@ -97,6 +97,7 @@ use Keycloak\Admin\TokenStorages\RuntimeTokenStorage;
  * @method array removeClientScopeAsDefault(array $args = array()) { @command Keycloak removeClientScopeAsDefault }
  * @method array getClientExampleAccessToken(array $args = array()) { @command Keycloak getClientExampleAccessToken }
  * @method array getClientProtocolMappers(array $args = array()) { @command Keycloak getClientProtocolMappers }
+ * @method array getClientProtocolMappersModels(array $args = array()) { @command Keycloak getClientProtocolMappersModels }
  * @method array getClientAllowedRoleMappingsInContainer(array $args = array()) { @command Keycloak getClientAllowedRoleMappingsInContainer }
  * @method array getClientNotAllowedRoleMappingsInContainer(array $args = array()) { @command Keycloak getClientNotAllowedRoleMappingsInContainer }
  * @method array getClientInstallationConfiguration(array $args = array()) { @command Keycloak getClientInstallationConfiguration }
@@ -271,6 +272,15 @@ use Keycloak\Admin\TokenStorages\RuntimeTokenStorage;
  * @method array addUserToGroup(array $args = array()) { @command Keycloak addUserToGroup }
  * @method array deleteUserFromGroup(array $args = array()) { @command Keycloak deleteUserFromGroup }
  * @method array resetUserPassword(array $args = array()) { @command Keycloak resetUserPassword }
+ * @method array getUserSessions(array $args = array()) { @command Keycloak getUserSessions }
+ * @method array getUserCredentials(array $args = array()) { @command Keycloak getUserCredentials }
+ *
+ * @method array syncUserStorage(array $args = array()) { @command Keycloak syncUserStorage }
+ *
+ * @method array getSocialLogins(array $args = array()) { @command Keycloak getSocialLogins }
+ * @method array removeSocialLogin(array $args = array()) { @command Keycloak removeSocialLogin }
+ * @method array getUserConsents(array $args = array()) { @command Keycloak getUserConsents }
+ * @method array addSocialLogin(array $args = array()) { @command Keycloak addSocialLogin }
  *
  */
 
@@ -303,7 +313,7 @@ class KeycloakClient extends GuzzleClient
 
         $stack = new HandlerStack();
         $stack->setHandler(new CurlHandler());
-        
+
         $middlewares = isset($config["middlewares"]) && is_array($config["middlewares"]) ? $config["middlewares"] : [];
         foreach ($middlewares as $middleware) {
             if (is_callable($middleware)) {
@@ -351,6 +361,7 @@ class KeycloakClient extends GuzzleClient
         return parent::getCommand($name, $params);
     }
 
+
     /**
      * Sets the BaseUri used by the Keycloak Client
      *
@@ -360,10 +371,10 @@ class KeycloakClient extends GuzzleClient
     {
         $this->setConfig('baseUri', $baseUri);
     }
+
+
     /**
-     * Sets the Realm name used by the Keycloak Client
-     *
-     * @param string $realm
+     * Gets the base Uri
      */
     public function getBaseUri()
     {
@@ -381,6 +392,7 @@ class KeycloakClient extends GuzzleClient
         $this->setConfig('realm', $realm);
     }
 
+
     /**
      * Gets the Realm name being used by the Keycloak Client
      *
@@ -390,6 +402,7 @@ class KeycloakClient extends GuzzleClient
     {
         return $this->getConfig('realm');
     }
+
 
     /**
      * Sets the API Version used by the Keycloak Client.
@@ -401,6 +414,7 @@ class KeycloakClient extends GuzzleClient
     {
         $this->setConfig('version', $version);
     }
+
 
     /**
      * Gets the Version being used by the Keycloak Client
