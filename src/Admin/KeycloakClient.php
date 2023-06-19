@@ -309,7 +309,7 @@ class KeycloakClient extends GuzzleClient
         // Create client configuration
         $config = self::parseConfig($config, $default);
 
-        $file = 'keycloak-' . str_replace('.', '_', $config['version']) . '.php';
+        $file = 'keycloak-1_0.php';
 
         $stack = new HandlerStack();
         $stack->setHandler(new CurlHandler());
