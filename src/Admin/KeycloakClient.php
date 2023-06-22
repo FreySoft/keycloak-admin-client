@@ -300,7 +300,7 @@ class KeycloakClient extends GuzzleClient
             'username' => null,
             'password' => null,
             'realm'    => 'master',
-            'version'  => '1.0',
+            'version'  => '1.1',
             'baseUri'  => null,
             'verify'   => true,
             'token_storage' => new RuntimeTokenStorage(),
