@@ -1,4 +1,4 @@
-# keycloak-admin-manage-lib
+# KeyCloak Admin Manage Lib
 
 modified copy of https://github.com/MohammadWaleed/keycloak-admin-client
 added definitions for
