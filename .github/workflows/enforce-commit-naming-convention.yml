@@ -1,0 +1,44 @@
+name: "Enforce Commit Naming Convention"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate Commit Messages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Use GitHub CLI (gh api) to fetch ONLY the subject lines of the commits in this PR
+          COMMITS=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits --jq '.[].commit.message | split("\n")[0]')
+          
+          # Regex for: [JIRA-123] type(scope): Subject
+          REGEX="^\[[A-Z]+-[0-9]+\] (feat|bugfix|hotfix|chore|refactor|fix|docs|test)(\([a-zA-Z0-9\-_]+\))?: .+"
+          
+          EXIT_CODE=0
+          
+          while IFS= read -r msg; do
+            if [[ "$msg" == Merge* ]]; then
+              continue
+            fi
+          
+            echo "Checking commit: $msg"
+          
+            if [[ ! "$msg" =~ $REGEX ]]; then
+              echo "::error:: Invalid commit message: '$msg'"
+              echo "Must follow format: [JIRA-KEY] type(scope): Subject line"
+              echo "Example: [PROJ-123] feat(auth): add Google SSO integration"
+              echo "More information: https://freysoft.atlassian.net/wiki/x/AQA3Qg"
+              EXIT_CODE=1
+            else
+              echo "Valid commit: '$msg'"
+            fi
+          done <<< "$COMMITS"
+          
+          exit $EXIT_CODE
