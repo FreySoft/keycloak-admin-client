@@ -1,0 +1,16 @@
+# Short name for better readability in GitHub UI
+name: "Checks"
+
+# This triggers the checks whenever a developer opens or updates a PR
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  # Short name for better readability in GitHub UI
+  naming:
+    name: "Naming"
+    # Call all FreySoft naming conventions checks
+    uses: freysoft/github-actions-templates/.github/workflows/template-freysoft-naming-convention.yml@main
+    # Pass token to the master template, which passes it to the commit template
+    secrets: inherit
